@@ -3,9 +3,13 @@ import 'package:provider/provider.dart';
 
 import '../../providers/anime_provider.dart';
 import '../../models/anime.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'widgets/hero_carousel.dart';
 import 'widgets/anime_horizontal_list.dart';
 import 'widgets/genre_grid.dart'; // GenreStripPosters
+import '../genre/genre_list_page.dart';
+import '../detail/anime_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // List genre untuk strip di beranda (id = Jikan genre id)
   final List<Map<String, Object?>> _genres = const [
     {'label': 'Action', 'id': 1},
     {'label': 'Adventure', 'id': 2},
@@ -36,28 +41,39 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
+    // Muat data setelah frame pertama (aman untuk context)
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prov = context.read<AnimeProvider>();
-      prov.loadTopAnime().then((_) => prov.loadHomeSections());
+      await prov.loadTopAnime();
+      if (!mounted) return;
+      await prov.loadHomeSections();
     });
   }
 
   void _goDetail(BuildContext context, Anime a) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Details for "${a.title}" coming soon!')),
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => AnimeDetailPage(animeId: a.id, title: a.title),
+      ),
     );
   }
 
-  Future<void> _openGenre(int index) async {
+  void _openGenre(int index) {
     final g = _genres[index];
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Genre page "${g['label']}" coming soon!')),
+    final id = g['id'] as int;
+    final label = g['label'] as String;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        // GenreListPage membutuhkan genreName
+        builder: (_) => GenreListPage(genreId: id, genreName: label),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final p = context.watch<AnimeProvider>();
+    final l = AppLocalizations.of(context);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -67,7 +83,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: CustomScrollView(
         slivers: [
-          // HERO – prefer seasonNow (≠ popular)
+          // ===== HERO (pakai seasonNow bila ada, agar beda dengan Trending) =====
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -76,6 +92,7 @@ class _HomePageState extends State<HomePage> {
                   final list = p.seasonNow.isNotEmpty
                       ? p.seasonNow
                       : (p.recommended.isNotEmpty ? p.recommended : p.items);
+
                   if ((p.loading || p.loadingSections) && list.isEmpty) {
                     return const SizedBox(
                       height: 220,
@@ -83,6 +100,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
                   if (list.isEmpty) return const SizedBox.shrink();
+
                   return HeroCarousel(
                     items: list,
                     onTapDetail: (a) => _goDetail(context, a),
@@ -92,45 +110,45 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // EXPLORE GENRES – square blurred posters
+          // ===== EXPLORE GENRES (ikon + warna, horizontal) =====
           SliverToBoxAdapter(
             child: GenreStripPosters(
               genres: _genres,
-              onTap: (i) => _openGenre(i),
+              onTap: _openGenre, // callback menerima index
             ),
           ),
 
-          // RECOMMENDED
+          // ===== RECOMMENDED =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: 'Recommended For You',
+              title: l.t('home.recommended'),
               items: p.recommended,
               onTapItem: (a) => _goDetail(context, a),
             ),
           ),
 
-          // TRENDING
+          // ===== TRENDING =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: 'Trending Now',
+              title: l.t('home.trending'),
               items: p.popular,
               onTapItem: (a) => _goDetail(context, a),
             ),
           ),
 
-          // THIS SEASON
+          // ===== THIS SEASON =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: 'This Season',
+              title: l.t('home.season'),
               items: p.seasonNow,
               onTapItem: (a) => _goDetail(context, a),
             ),
           ),
 
-          // TOP MOVIES
+          // ===== TOP MOVIES =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: 'Top Movies',
+              title: l.t('home.movies'),
               items: p.topMovies,
               onTapItem: (a) => _goDetail(context, a),
             ),

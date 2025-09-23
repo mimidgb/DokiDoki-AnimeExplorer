@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'core/anime_api.dart';
 import 'providers/anime_provider.dart';
 import 'features/home/home_page.dart';
+import 'features/watchlist/watchlist_provider.dart';
+import 'features/watchlist/watchlist_page.dart';
+import 'features/settings/settings_provider.dart';
+import 'features/settings/settings_page.dart';
+import 'features/search/search_page.dart';
+import 'l10n/app_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,11 +23,9 @@ class DokiDokiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Biru brand untuk judul
-    const brandBlue = Color(0xFF2E7CF6);
-    final seed = brandBlue;
+    // warna seed (kamu pakai abu-abu, bisa diganti)
+    const brand = Color.fromARGB(255, 114, 112, 112);
 
-    // (Opsional) tetap pakai Poppins untuk body; judul AppBar akan override ke Sora
     TextTheme fontTheme(TextTheme base) =>
         GoogleFonts.poppinsTextTheme(base).copyWith(
           titleLarge: GoogleFonts.poppins(
@@ -35,24 +41,58 @@ class DokiDokiApp extends StatelessWidget {
     ThemeData themed(Brightness b) {
       final base = ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: seed,
+        colorSchemeSeed: brand,
         brightness: b,
-        snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
+        snackBarTheme:
+            const SnackBarThemeData(behavior: SnackBarBehavior.floating),
       );
       return base.copyWith(textTheme: fontTheme(base.textTheme));
     }
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AnimeProvider(AnimeApi())),
+        // Settings harus duluan
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+
+        // AnimeApi mengikuti Settings (SFW & preferEnglishTitle)
+        ProxyProvider<SettingsProvider, AnimeApi>(
+          update: (_, sp, api) {
+            api ??= AnimeApi();
+            api.sfw = sp.sfwOnly;
+            api.preferEnglishTitle = sp.preferEnglishTitle;
+            return api;
+          },
+        ),
+
+        // Provider lain yang memakai AnimeApi / state app
+        ChangeNotifierProvider(
+          create: (ctx) => AnimeProvider(ctx.read<AnimeApi>()),
+        ),
+        ChangeNotifierProvider(create: (_) => WatchlistProvider()),
       ],
-      child: MaterialApp(
-        title: 'DokiDoki',
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.system,
-        theme: themed(Brightness.light),
-        darkTheme: themed(Brightness.dark),
-        home: const _ScaffoldRoot(),
+      child: Consumer<SettingsProvider>(
+        builder: (context, settings, _) {
+          final locale = Locale(settings.localeCode);
+          return MaterialApp(
+            title: 'DokiDoki',
+            debugShowCheckedModeBanner: false,
+            themeMode: settings.themeMode,
+            theme: themed(Brightness.light),
+            darkTheme: themed(Brightness.dark),
+
+            // Localizations
+            locale: locale,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: const [
+              AppLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+
+            home: const _ScaffoldRoot(),
+          );
+        },
       ),
     );
   }
@@ -70,12 +110,12 @@ class _ScaffoldRootState extends State<_ScaffoldRoot> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    const brandBlue = Color.fromARGB(255, 84, 124, 189);
+    final l = AppLocalizations.of(context);
 
     final pages = <Widget>[
       const HomePage(),
-      const _PlaceholderPage(title: 'Watchlist (coming soon)'),
-      const _PlaceholderPage(title: 'Settings (coming soon)'),
+      const WatchlistPage(),
+      const SettingsPage(),
     ];
 
     return Scaffold(
@@ -83,13 +123,12 @@ class _ScaffoldRootState extends State<_ScaffoldRoot> {
         automaticallyImplyLeading: false,
         centerTitle: false,
         titleSpacing: 16,
-        // === Title pakai TEKS (Sora) berwarna biru ===
         title: Row(
           children: [
             Text(
               'DokiDoki',
               style: GoogleFonts.sora(
-                color: const Color.fromARGB(255, 38, 77, 136),
+                color: const Color.fromARGB(255, 114, 112, 112),
                 fontWeight: FontWeight.w800,
                 fontSize: 30,
                 letterSpacing: .4,
@@ -97,49 +136,46 @@ class _ScaffoldRootState extends State<_ScaffoldRoot> {
               ),
             ),
             const Spacer(),
-            // Ikon search: tanpa border, gaya filled-tonal (Material 3), sedikit lebih besar
             IconButton(
-        tooltip: 'Search',
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Search page coming soon!')),
-          );
-        },
-        icon: const Icon(Icons.search_rounded),
-        iconSize: 28,               // sedikit lebih besar
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
-      ),
-    ],
-  ),
+              tooltip: 'Search',
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const SearchPage()),
+                );
+              },
+              icon: const Icon(Icons.search_rounded),
+              iconSize: 28,
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              constraints:
+                  const BoxConstraints(minWidth: 44, minHeight: 44),
+            ),
+          ],
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Divider(
             height: 1,
             thickness: 1,
-            color: Theme.of(context).colorScheme.outlineVariant,
+            color: cs.outlineVariant,
           ),
         ),
       ),
-      body: pages[_index],
+      body: IndexedStack(index: _index, children: pages),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: (i) => setState(() => _index = i),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_rounded), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.star_rounded), label: 'Watchlist'),
-          NavigationDestination(icon: Icon(Icons.settings_rounded), label: 'Settings'),
+        destinations: [
+          NavigationDestination(
+              icon: const Icon(Icons.home_rounded),
+              label: l.t('nav.home')),
+          NavigationDestination(
+              icon: const Icon(Icons.star_rounded),
+              label: l.t('nav.watchlist')),
+          NavigationDestination(
+              icon: const Icon(Icons.settings_rounded),
+              label: l.t('nav.settings')),
         ],
       ),
     );
-  }
-}
-
-class _PlaceholderPage extends StatelessWidget {
-  const _PlaceholderPage({required this.title});
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text(title, style: Theme.of(context).textTheme.titleMedium));
   }
 }

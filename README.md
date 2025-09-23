@@ -48,7 +48,7 @@ Struktur direktori (ringkas):
 
 • Flutter SDK 3.x
 
-• Android Studio / Xcode (untuk build device)
+• Android Studio 
 
 • (Opsional) Postman/Insomnia untuk eksplorasi API
 

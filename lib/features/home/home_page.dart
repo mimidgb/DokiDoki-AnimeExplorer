@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
           // ===== RECOMMENDED =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: l.t('home.recommended'),
+              title: l.t('Recommended'),
               items: p.recommended,
               onTapItem: (a) => _goDetail(context, a),
             ),
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
           // ===== TRENDING =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: l.t('home.trending'),
+              title: l.t('Trending'),
               items: p.popular,
               onTapItem: (a) => _goDetail(context, a),
             ),
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
           // ===== THIS SEASON =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: l.t('home.season'),
+              title: l.t('Season'),
               items: p.seasonNow,
               onTapItem: (a) => _goDetail(context, a),
             ),
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
           // ===== TOP MOVIES =====
           SliverToBoxAdapter(
             child: AnimeHorizontalList(
-              title: l.t('home.movies'),
+              title: l.t('Movies'),
               items: p.topMovies,
               onTapItem: (a) => _goDetail(context, a),
             ),

